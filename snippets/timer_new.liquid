@@ -1,0 +1,88 @@
+<style>
+  @media screen and (max-width: 750px) {
+    /* Mobile Timer */
+    #timer div {
+      font-size:48px !important;
+      font-family: "HelveticaMed" !important;
+      font-weight: 600;
+      display: inline-block;
+    }
+    
+    #timer {
+      display: inline-block !important;
+    }
+  }
+  
+  @media screen and (min-width: 750px) {
+    #timer div {
+      display: inline-block;
+      font-size: 80px;
+      font-family: "HelveticaMed" !important;
+      font-weight: 600;
+    }
+  }
+
+  /* #timer {
+    display: inline-block;
+    line-height: 1;
+    padding: 80px;
+    font-size: 40px;
+  } */
+  
+  /* Both desktop and mobile timer */
+  #timer {
+    display: flex;
+    line-height: 1;
+    padding: 19px;
+    font-size: 30px;
+    width: 100%;
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  span {
+    display: block;
+    font-size: 20px;
+    color: white;
+  }
+
+  #days, #hours, #minutes, #seconds {
+    font-size: 100px;
+    color: #000;
+  }
+</style>
+
+<div id="timer">
+  <div id="days"></div>
+  <div id="hours"></div>
+  <div id="minutes"></div>
+  <div id="seconds"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  function makeTimer() {
+    var endTime = new Date("{{settings.texf}}");			
+    endTime = (Date.parse(endTime) / 1000);
+    var now = new Date();
+    now = (Date.parse(now) / 1000);
+    var timeLeft = endTime - now;
+
+    var days = Math.floor(timeLeft / 86400); 
+    var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+    var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
+    var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+
+    if (hours < "10") { hours = "0" + hours; }
+    if (minutes < "10") { minutes = "0" + minutes; }
+    if (seconds < "10") { seconds = "0" + seconds; }
+
+    $("#days").html(days +": ");
+    $("#hours").html(hours +":");
+    $("#minutes").html(minutes +": ");
+    $("#seconds").html(seconds );		
+  }
+
+  setInterval(function() { makeTimer(); }, 1000);
+</script>

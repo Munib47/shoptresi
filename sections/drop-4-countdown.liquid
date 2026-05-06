@@ -1,0 +1,258 @@
+<div id="drop-4-desktop">
+  <div id="drop-4-background-desktop">
+    <img src="https://cdn.shopify.com/s/files/1/0732/8795/8803/files/desktop.jpg?v=1712772121" alt="Drop 4 Desktop">
+  </div>
+  
+  <div id="drop-4-title-desktop">
+    <p id="drop-4-text-desktop">Drop 4</p>
+  </div>
+
+  <div id="drop-4-countdown-desktop">
+    <p id="drop-4-countdown-text-desktop" class="drop-4-countdown-text"></p>
+  </div>
+
+  <div id="drop-4-message-container-desktop">
+    <div id="drop-4-message-desktop">
+      <p id="drop-4-message-text-desktop">Join The Party 4/18</p>
+    </div>
+  </div>
+</div>
+
+<div id="drop-4-mobile">
+  <div id="drop-4-background-mobile">
+    <img src="https://cdn.shopify.com/s/files/1/0732/8795/8803/files/mobile2.jpg?v=1712897830" alt="Drop 4 Mobile">
+  </div>
+  
+  <div id="drop-4-title-mobile">
+    <p id="drop-4-text-mobile">Drop 4 Drop 4 Drop 4 Drop 4 Drop 4 Drop 4 Drop 4 Drop 4 Drop 4 Drop 4 </p>
+  </div>
+
+  <div id="drop-4-countdown-mobile">
+    <p id="drop-4-countdown-text-mobile" class="drop-4-countdown-text"></p>
+  </div>
+
+  <div id="drop-4-message-container-mobile">
+    <div id="drop-4-message-mobile">
+      <p id="drop-4-message-text-mobile">Join The Party 4/18</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  @media (min-width: 768px) {
+    #drop-4-mobile {
+      display: none;
+    }
+  }
+
+  #drop-4-desktop {
+    margin-top: 90px;
+    position: relative;
+  }
+
+  #drop-4-background-desktop {
+    width: 100%;
+  }
+
+  #drop-4-background-desktop img {
+    width: 100%;
+    height: 100%;
+  }
+
+  #drop-4-title-desktop {
+    padding: 5px 10px;
+    border: 1px solid black;
+    background-color: yellow;
+    position: absolute;
+    top: 28%;
+    left: 22%;
+    transform: rotate(-5deg);
+    z-index: 2;
+  }
+
+  #drop-4-text-desktop {
+    margin: 0px;
+    font-family: HelveticaMed !important;
+    font-weight: bold;
+    font-size: 7vw;
+    line-height: 1;
+  }
+
+  #drop-4-countdown-desktop {
+    padding: 5px 10px;
+    border: 1px solid black;
+    background-color: yellow;
+    position: absolute;
+    top: 42%;
+    left: 34%;
+    z-index: 1;
+  }
+
+  #drop-4-countdown-text-desktop {
+    margin: 0px;
+    font-family: HelveticaMed !important;
+    font-weight: bold;
+    font-size: 7vw;
+    line-height: 1;
+  }
+
+  #drop-4-message-container-desktop {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: absolute;
+    top: 69%;
+  }
+
+  #drop-4-message-desktop {
+    padding: 5px 20px;
+    background-color: black;
+  }
+
+  #drop-4-message-text-desktop {
+    margin: 0px;
+    color: yellow;
+    font-family: HelveticaLight !important;
+    font-weight: bold;
+    font-size: calc(var(--font-heading-scale) * 3rem);
+    line-height: 1;
+  }
+
+  @media (max-width: 767px) {
+    #drop-4-desktop {
+      display: none;
+    }
+  }
+
+  #drop-4-mobile {
+    margin-top: 71px;
+    height: 71vh;
+    position: relative;
+  }
+
+  #drop-4-background-mobile {
+    width: 100%;
+    height: 100%;
+  }
+
+  #drop-4-background-mobile img {
+    width: 100%;
+    height: 100%;
+  }
+
+  #drop-4-title-mobile {
+    width: 100%;
+    padding: 5px 10px;
+    border: 1px solid black;
+    background-color: yellow;
+    position: absolute;
+    top: 10%;
+    overflow: hidden;
+  }
+
+  @keyframes slideText {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0%);
+    }
+  }
+
+  #drop-4-text-mobile {
+    margin: 0px;
+    font-family: HelveticaMed !important;
+    font-weight: bold;
+    font-size: 15vw;
+    line-height: 1;
+    white-space: nowrap;
+    display: inline-block;
+    animation: slideText 20s linear infinite;
+  }
+
+  #drop-4-countdown-mobile {
+    width: 100%;
+    padding: 5px 0px;
+    border: 1px solid black;
+    background-color: yellow;
+    position: absolute;
+    top: 26%;
+  }
+
+  #drop-4-countdown-text-mobile {
+    margin: 0px;
+    text-align: center;
+    font-family: HelveticaMed !important;
+    font-weight: bold;
+    font-size: 14vw;
+    line-height: 1;
+  }
+
+  #drop-4-message-container-mobile {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: absolute;
+    top: 88%;
+  }
+
+  #drop-4-message-mobile {
+    padding: 5px 20px;
+    background-color: black;
+  }
+
+  #drop-4-message-text-mobile {
+    margin: 0px;
+    color: yellow;
+    font-family: HelveticaLight !important;
+    font-weight: bold;
+    font-size: calc(var(--font-heading-scale) * 2rem);
+    line-height: 1;
+  }
+</style>
+
+<script>
+  var countDownDate = new Date("April 18, 2024 00:00:00").getTime();
+  
+  function updateCountdown() {
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+  
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  
+    var countdownElements = document.getElementsByClassName("drop-4-countdown-text");
+
+    for (var i = 0; i < countdownElements.length; i++) {
+      countdownElements[i].innerHTML =
+        ("0" + days).slice(-2) + ":" +
+        ("0" + hours).slice(-2) + ":" +
+        ("0" + minutes).slice(-2) + ":" +
+        ("0" + seconds).slice(-2);
+    
+      if (distance < 0) {
+        clearInterval(x);
+        countdownElements[i].innerHTML = "EXPIRED";
+      }
+    }
+  }
+
+  updateCountdown();
+  var x = setInterval(updateCountdown, 1000);
+</script>
+
+{% schema %}
+  {
+    "name": "Drop 4 Countdown",
+    "presets": [
+      {
+        "name": "Drop 4 Countdown",
+        "category": "Custom"
+      }
+    ]
+  }
+{% endschema %}

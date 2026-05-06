@@ -1,0 +1,5 @@
+{%- paginate collection.products by 500 -%}
+  {%- for product in collection.products  -%}
+    <p><a href="{{ product.url }}">{{ forloop.index }} = {{ product.title }} </a></p>
+  {% endfor %}
+{% endpaginate %}

@@ -1,0 +1,760 @@
+{%- if section.blocks.size > 0 -%}
+  {%- for block in section.blocks -%}
+    {%- assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+    {% if block.type == 'video' %}
+      <div
+        class="home-page-videoBox videoBox {% if section.settings.hover_effect %}has-hover-effect{% endif %}"
+        data-enable-top-margin="{{ section.settings.enable_top_margin }}"
+        data-link="{{ block.settings.button_link }}"
+        data-desktop-height="{{ section.settings.desktop_height }}"
+        data-mobile-height="{{ section.settings.mobile_height }}"
+      >
+        <!-- DESKTOP -->
+        <div
+          class="home-page-videoBox__wrapper home-page-videoBox__wrapper-desktop"
+          {% if block.settings.video_link == blank %}
+            style="background-image: url('{{ block.settings.video_image | img_url: 'master' }}');"
+          {% endif %}
+        >
+          {% if block.settings.video_link != blank %}
+            <div class="home-page-fullscreen-video-wrap fullscreen-video-wrap">
+              <video
+                class="home-page-video-js video-js"
+                loop
+                autoplay
+                preload="none"
+                muted
+                playsinline
+                poster="{{ block.settings.video_image | img_url: 'master' }}"
+              >
+                <source src="{{ block.settings.video_link }}" type="video/mp4">
+              </video>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- MOBILE -->
+        <div
+          class="home-page-videoBox__wrapper home-page-videoBox__wrapper-mobile"
+          {% if block.settings.video_link_mobile == blank %}
+            style="background-image: url('{{ block.settings.video_image_mobile | img_url: 'master' }}');"
+          {% endif %}
+        >
+          {% if block.settings.video_link_mobile != blank %}
+            <div class="home-page-fullscreen-video-wrap fullscreen-video-wrap">
+              <video
+                class="home-page-video-js video-js"
+                loop
+                autoplay
+                preload="none"
+                muted
+                playsinline
+                poster="{{ block.settings.video_image_mobile | img_url: 'master' }}"
+              >
+                <source src="{{ block.settings.video_link_mobile }}" type="video/mp4">
+              </video>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="overlay" style="opacity: 0.{{ block.settings.overlay_opacity }}"></div>
+        <div class="home-page-videoBoxInfo videoBoxInfo">
+          {% if block.settings.title != blank %}
+            <h1
+              class="home-page-videoBoxInfoTitle videoBoxInfoTitle"
+              style="color: {{ block.settings.heading_color }}; --data-hover-color: {{ block.settings.heading_hover_color }};"
+            >
+              {{ block.settings.title | escape }}
+            </h1>
+          {% endif %}
+          {% if block.settings.desktop_description_texts != blank or block.settings.mobile_description_texts %}
+            <div class="home-page-videoBoxInfoDescription videoBoxInfoDescription" id="{{ block.id }}">
+              <div
+                class="home-page-videoBoxInfoDescriptionTexts videoBoxInfoDescriptionTexts"
+                id="home-page-videoBoxInfoDescriptionTextsDesktop"
+              >
+                {% assign texts = block.settings.desktop_description_texts | split: ';;' %}
+                {% for text in texts %}
+                  <p
+                    class="home-page-videoBoxInfoDescriptionText videoBoxInfoDescriptionText"
+                    style="color: {{ block.settings.description_color }}; --data-hover-color: {{ block.settings.description_hover_color }};"
+                  >
+                    {{ text | strip_html }}
+                  </p>
+                {% endfor %}
+              </div>
+
+              <div
+                class="home-page-videoBoxInfoDescriptionTexts videoBoxInfoDescriptionTexts"
+                id="home-page-videoBoxInfoDescriptionTextsMobile"
+              >
+                {% assign texts = block.settings.mobile_description_texts | split: ';;' %}
+                {% for text in texts %}
+                  <p
+                    class="home-page-videoBoxInfoDescriptionText videoBoxInfoDescriptionText"
+                    style="color: {{ block.settings.description_color }}; --data-hover-color: {{ block.settings.description_hover_color }};"
+                  >
+                    {{ text | strip_html }}
+                  </p>
+                {% endfor %}
+              </div>
+
+              {% if block.settings.button_link != blank and block.settings.button_label != blank %}
+                <div class="home-page-videoBoxInfoBtn-wrapper">
+                  <a
+                    href="{{ block.settings.button_link }}"
+                    class="home-page-videoBoxInfoBtn videoBoxInfoBtn"
+                    style="color: {{ block.settings.color_btn_text }}; background-color: {{ block.settings.color_btn_bg }}; --data-hover-bg: {{ block.settings.color_btn_hover_bg }}; --data-hover-color: {{ block.settings.color_btn_hover_text }};"
+                  >
+                    {{ block.settings.button_label | escape }}
+                  </a>
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+          {% for sub_block in section.blocks %}
+            {% if sub_block.type == 'timer' %}
+              {% render 'timer' %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% else %}
+      <div
+        class="home-page-imageBox imageBox"
+        style="background-color: {{ block.settings.color_bg }}; {% if block.settings.image_bg != blank %}background-image: url('{{ block.settings.image_bg | img_url: 'master' }}');{% endif %}"
+      >
+        <div class="overlay" style="opacity: 0.{{ block.settings.overlay_opacity }}"></div>
+        <div class="home-page-imageBoxInfo imageBoxInfo">
+          {% if block.settings.title != blank %}
+            <h1 class="imageBoxInfoTitle" style="color: {{ block.settings.color_text }}">hi</h1>
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <div class="imageBoxInfoDescription" id="{{ block.id }}">
+              <p
+                class="imageBoxInfoDescriptionText"
+                style="color: {{ block.settings.color_text }}; width: {{ block.settings.width }}%;"
+              >
+                {{ block.settings.text | strip_html }}
+              </p>
+            </div>
+          {% endif %}
+          {% if block.settings.button_link != blank and block.settings.button_label != blank %}
+            <a
+              href="{{ block.settings.button_link }}"
+              class="home-page-imageBoxInfoBtn imageBoxInfoBtn"
+              style="color: {{ block.settings.color_btn_text }}; background-color: {{ block.settings.color_btn_bg }}; --data-hover-bg: {{ block.settings.color_btn_hover_bg }}; --data-hover-color: {{ block.settings.color_btn_hover_text }};"
+            >
+              {{ block.settings.button_label | escape }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  {%- endfor -%}
+{%- else -%}
+  <div class="placeholderNoblocks">
+    This section doesn’t currently include any content. Add content to this section using the sidebar.
+  </div>
+{%- endif -%}
+
+<style>
+  .home-page-videoBox__wrapper {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .fullscreen-video-wrap,
+  .home-page-videoBox__wrapper video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home-page-videoBackground {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .home-page-videoBackground .home-page-videoBox,
+  .home-page-videoBackground .home-page-imageBox {
+    display: flex;
+    padding: 20px 50px;
+    height: 100.5%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    border-top: 2px solid black;
+  }
+
+  .home-page-videoBackground .home-page-videoBox {
+    cursor: pointer;
+  }
+
+  .home-page-videoBox::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color 0.3s ease;
+    z-index: 1;
+  }
+
+  .home-page-videoBox.has-hover-effect:hover::before {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .home-page-videoBox.has-hover-effect:hover .home-page-videoBoxInfoTitle {
+    color: var(--data-hover-color) !important;
+  }
+
+  .home-page-videoBox.has-hover-effect:hover .home-page-videoBoxInfoDescriptionText {
+    color: var(--data-hover-color) !important;
+  }
+
+  .home-page-videoBackground .home-page-fullscreen-video-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .home-page-video-js {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home-page-videoBackground .home-page-videoBoxInfo,
+  .home-page-videoBackground .home-page-imageBoxInfo {
+    z-index: 2;
+  }
+
+  .home-page-videoBoxInfo {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .home-page-videoBackground .overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #000;
+    z-index: 1;
+  }
+
+  .home-page-videoBoxInfoTitle {
+    font-size: 6rem;
+    margin: 0px;
+  }
+
+  .home-page-videoBoxInfoDescription {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .home-page-videoBoxInfoDescriptionTexts {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #home-page-videoBoxInfoDescriptionTextsDesktop p {
+    font-size: 2rem;
+  }
+
+  .home-page-videoBoxInfoDescriptionText {
+    margin: 0px;
+    font-family: HelveticaMed !important;
+  }
+
+  .home-page-videoBoxInfoBtn, .home-page-imageBoxInfoBtn {
+    font-size: 2rem;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    padding: 0px 40px;
+    border: 2px solid black;
+    transition: all 0.3s ease;
+  }
+
+  .home-page-videoBoxInfoBtn:hover {
+    background-color: var(--data-hover-bg) !important;
+    color: var(--data-hover-color) !important;
+  }
+
+  .home-page-videoBackground .placeholderNoblocks {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 914px) {
+    .home-page-videoBox__wrapper-mobile {
+      display: none;
+    }
+
+    #home-page-videoBoxInfoDescriptionTextsMobile {
+      display: none;
+    }
+  }
+
+  @media (max-width: 913px) {
+    .home-page-videoBox__wrapper-desktop {
+      display: none;
+    }
+
+    .home-page-videoBackground .home-page-videoBox,
+    .home-page-videoBackground .home-page-imageBox {
+      padding: 15px;
+    }
+
+    .home-page-videoBoxInfoTitle {
+      font-size: 3.5rem;
+    }
+
+    .home-page-videoBoxInfoDescription {
+      flex-direction: column;
+      gap: 15px;
+      align-items: start;
+    }
+
+    #home-page-videoBoxInfoDescriptionTextsDesktop {
+      display: none;
+    }
+
+    .home-page-videoBoxInfoBtn-wrapper {
+      padding: 5px 0px 15px;
+    }
+
+    .home-page-videoBoxInfoBtn {
+      padding: 5px 30px;
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const header     = document.querySelector(".header");
+    const videoBoxes = document.querySelectorAll(".home-page-videoBox");
+    const videoBackgrounds = document.querySelectorAll(".home-page-videoBackground");
+  
+    // your breakpoints
+    const BPS = [862, 990, 1189];
+  
+    // helper: map a width to a “segment index”
+    function getSegment(width) {
+      if (width <= BPS[0])              return 0;
+      if (width <= BPS[1] - 1)          return 1;
+      if (width <= BPS[2])              return 2;
+      return 3;
+    }
+  
+    // track which segment we’re in
+    let lastSegment = getSegment(window.innerWidth);
+  
+    // 1) margins for every box
+    function updateMargins() {
+      const headerH = header ? header.offsetHeight : 0;
+      videoBackgrounds.forEach((bg, i) => {
+        // grab the matching box by index
+        const box = videoBoxes[i];
+        if (!box) return;
+    
+        const enabled = box.dataset.enableTopMargin === "true";
+        bg.style.marginTop = enabled ? `${headerH}px` : "0";
+      });
+    }
+
+    // TODO: Maybe add toggle to do either auto height or manual height
+    // 2) compute & set height for ALL boxes
+    // function updateHeightsAll() {
+    //   const w = window.innerWidth;
+    //   const h = window.innerHeight;
+    //   let headerH = header ? header.offsetHeight : 0;
+  
+    //   // announcement-bar fallback
+    //   const barH = w <= BPS[0] ? 51 : 25;
+    //   if (w >= 990 && w <= 1189) headerH = 130;
+  
+    //   const calcH = h - headerH - barH;
+    //   videoBoxes.forEach(box => {
+    //     box.style.height = `${calcH}px`;
+    //   });
+    // }
+    
+    function updateHeights() {
+      const w = window.innerWidth;
+    
+      videoBackgrounds.forEach((bg, i) => {
+        // grab the matching box by index
+        const box = videoBoxes[i];
+        if (!box) return;
+    
+        // pull your numeric values out of data-*
+        const dh = box.dataset.desktopHeight;
+        const mh = box.dataset.mobileHeight;
+    
+        // decide unit based on breakpoint
+        const value = w <= 768 
+          ? `${mh}vh`  // mobile uses vh
+          : `${dh}vw`; // desktop uses vw
+    
+        bg.style.height = value;
+      });
+    }
+  
+    // 3) click handler for every box
+    function attachClicks() {
+      videoBoxes.forEach(box => {
+        const link = box.dataset.link;
+        box.classList.toggle("has-link", !!link);
+        if (link) {
+          box.addEventListener("click", () => {
+            window.location.href = link;
+          });
+        }
+      });
+    }
+  
+    // initial
+    updateMargins();
+    updateHeights();
+    attachClicks();
+  
+    // on resize: always update margins; update heights only if segment changes
+    window.addEventListener("resize", () => {
+      updateMargins();
+      updateHeights();
+
+      // TODO: Maybe add toggle to do either auto height or manual height
+      // const seg = getSegment(window.innerWidth);
+      // if (seg !== lastSegment) {
+      //   updateHeightsAll();
+      //   lastSegment = seg;
+      // }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": {
+    "en": "Home Page Video BG"
+  },
+  "class": "videoBackground home-page-videoBackground",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_top_margin",
+      "label": {
+        "en": "Enable Top Margin"
+      },
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hover_effect",
+      "label": { "en": "Hover effect" },
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop Banner Height (% of screen width)",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile Banner Height (% of screen height)",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "default": 40
+    }
+  ],
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "timer",
+      "name": "Timer"
+    },
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "url",
+          "id": "video_link",
+          "label": {
+            "en": "Desktop video link"
+          }
+        },
+        {
+          "type": "image_picker",
+          "id": "video_image",
+          "label": {
+            "en": "Desktop cover image"
+          }
+        },
+        {
+          "type": "url",
+          "id": "video_link_mobile",
+          "label": {
+            "en": "Mobile video link"
+          }
+        },
+        {
+          "type": "image_picker",
+          "id": "video_image_mobile",
+          "label": {
+            "en": "Mobile cover image"
+          }
+        },
+        /*
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": {
+            "en": "Overlay opacity"
+          },
+          "min": 0,
+          "max": 99,
+          "step": 1,
+          "unit": {
+            "en": "%"
+          },
+          "default": 0
+        },
+        */
+        {
+          "type": "text",
+          "id": "title",
+          "label": {
+            "en": "Heading"
+          },
+          "default": "Video slide"
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": {
+            "en": "Heading text color"
+          },
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "heading_hover_color",
+          "label": {
+            "en": "Heading hover text color"
+          },
+          "default": "#ffffff"
+        },
+        {
+          "type": "textarea",
+          "id": "desktop_description_texts",
+          "label": {
+            "en": "Desktop Description Texts (separate lines using ;;)"
+          },
+          "default": "First line of text;;Second line of text;;Third line of text"
+        },
+        {
+          "type": "textarea",
+          "id": "mobile_description_texts",
+          "label": {
+            "en": "Mobile Description Texts (separate lines using ;;)"
+          },
+          "default": "First line of text;;Second line of text;;Third line of text"
+        },
+        {
+          "type": "color",
+          "id": "description_color",
+          "label": {
+            "en": "Description text color"
+          },
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "description_hover_color",
+          "label": {
+            "en": "Description hover text color"
+          },
+          "default": "#ffffff"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": {
+            "en": "Button label"
+          }
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": {
+            "en": "Button link"
+          }
+        },
+        {
+          "type": "color",
+          "id": "color_btn_bg",
+          "label": {
+            "en": "Button background color"
+          },
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "color_btn_text",
+          "label": {
+            "en": "Button text color"
+          },
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "color_btn_hover_bg",
+          "label": {
+            "en": "Button hover background color"
+          },
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "color_btn_hover_text",
+          "label": {
+            "en": "Button hover text color"
+          },
+          "default": "#000000"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "color",
+          "id": "color_bg",
+          "label": {
+            "en": "Background color (optional)"
+          },
+          "default": "#16165b"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_bg",
+          "label": {
+            "en": "Or use an image (required)"
+          }
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": {
+            "en": "Overlay opacity"
+          },
+          "min": 0,
+          "max": 99,
+          "step": 1,
+          "unit": {
+            "en": "%"
+          },
+          "default": 0
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": {
+            "en": "Heading"
+          },
+          "default": "Image slide"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": {
+            "en": "Description"
+          },
+          "default": {
+            "en": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+          }
+        },
+        {
+          "type": "color",
+          "id": "color_text",
+          "label": {
+            "en": "Description text color"
+          },
+          "default": "#ffffff"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": {
+            "en": "Button label"
+          }
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": {
+            "en": "Button link"
+          }
+        },
+        {
+          "type": "color",
+          "id": "color_btn_bg",
+          "label": {
+            "en": "Background button color"
+          },
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "color_btn_text",
+          "label": {
+            "en": "Button text color"
+          },
+          "default": "#ffffff"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": {
+        "en": "Home Page Video Background"
+      },
+      "category": {
+        "en": "Main"
+      },
+      "blocks": [
+        {
+          "type": "video"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

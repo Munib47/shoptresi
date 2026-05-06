@@ -1,0 +1,58 @@
+<div class="breadcrumbs_main_div">
+  {%- if template contains "product" -%}
+    {%- assign show_collection = nil -%}
+
+    {%- comment -%}
+      Only show a collection breadcrumb when the product page actually has
+      collection context (for example, when the product was opened from
+      /collections/storage via | within: collection).
+      This avoids incorrectly falling back to some unrelated collection like
+      "Bookshelf Scene".
+    {%- endcomment -%}
+    {%- if collection and product.collections contains collection -%}
+      {%- assign show_collection = collection -%}
+    {%- endif -%}
+
+    {%- if show_collection -%}
+      {{ show_collection.title | link_to: show_collection.url }}
+      {% render 'icon-right-arrow' %}
+    {%- endif -%}
+
+    <span class="page-title active">{{ product.title }}</span>
+
+  {% elsif template == "article" %}
+    {% render 'icon-right-arrow' %}
+    {{ blog.title | link_to: blog.url }}
+    {% render 'icon-right-arrow' %}
+    <span class="page-title active">{{ page_title }}</span>
+
+  {% elsif template == "list-collections" %}
+    {% render 'icon-right-arrow' %}
+    <span class="page-title active">Collections</span>
+
+  {% elsif template contains "collection" %}
+    {% if current_tags.size > 0 %}
+      {% render 'icon-right-arrow' %}
+      {{ collection.title | link_to: collection.url }}
+      {% render 'icon-right-arrow' %}
+      <span class="page-title active">{{ current_tags.first }}</span>
+    {% else %}
+      {% render 'icon-right-arrow' %}
+      <span class="page-title active">{{ collection.title }}</span>
+    {% endif %}
+
+  {% elsif template contains "search" %}
+    {% render 'icon-right-arrow' %}
+    {% if search.performed %}
+      {% if search.results_count == 0 %}
+        <span class="page-title active">{{ 'general.search.no_results_html' | t: terms: search.terms }}</span>
+      {% else %}
+        <span class="page-title active">{{ 'general.search.results_for_html' | t: terms: search.terms }}</span>
+      {% endif %}
+    {%- endif -%}
+
+  {% else %}
+    {% render 'icon-right-arrow' %}
+    <span class="page-title active">{{ page_title }}</span>
+  {%- endif -%}
+</div>

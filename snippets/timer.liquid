@@ -1,0 +1,77 @@
+<style>
+  .tmrs {
+    display: grid;
+    grid-template-columns: 23% 2% 23% 2% 23% 2% 23%;
+    width: 273px;
+    text-align: center;
+    line-height: 22px;
+    column-gap: 1px;
+    align-items: center;
+  }
+  
+  .sing-tmr {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    background:{{ settings.back }};
+    padding: 6px 7px;
+  }
+  
+  .sing-tmr p {
+    margin: 0;
+    font-size: {{ settings.fon }}px;
+    color:{{ settings.digi }};
+  }
+  
+  .col {
+    font-size: 29px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    {% if settings.colon %} opacity:0;{% endif %}
+  }
+</style>
+
+<div style="text-align: center; width: 250px; margin: 20px auto;">
+  <span style="font-size: {{ settings.head }}px; font-weight: 600; color:{{ settings.digi }}">{{ settings.tlt }}</span>
+  <div class="tmrs">
+    <div class="sing-tmr" style="{% if settings.brder %} border: 1px solid grey; {% endif %}">
+      <p class="js-timer-days"></p>
+      <span style="color:{{ settings.digi }}">DAYS</span>
+    </div>
+    <span class="col">:</span>
+    <div class="sing-tmr" style="{% if settings.brder %} border: 1px solid grey; {% endif %}">
+      <p class="js-timer-hours"></p>
+      <span style="color:{{ settings.digi }}">HRS</span>
+    </div>
+    <span class="col">:</span>
+    <div class="sing-tmr" style="{% if settings.brder %} border: 1px solid grey; {% endif %}">
+      <p class="js-timer-minutes"></p>
+      <span style="color:{{ settings.digi }}">MIN</span>
+    </div>
+    <span class="col">:</span>
+    <div class="sing-tmr" style="{% if settings.brder %} border: 1px solid grey; {% endif %}">
+      <p class="js-timer-seconds"></p>
+      <span style="color:{{ settings.digi }};">SEC</span>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var second = 1000,
+      minute = second * 60,
+      hour = minute * 60,
+      day = hour * 24;
+  
+  var countDown = new Date('{{settings.texf}}').getTime(),
+      x = setInterval(function() {
+        var now = new Date().getTime(),
+            distance = countDown - now;
+        
+        document.querySelectorAll('.js-timer-days').forEach((time)=>{time.innerText = Math.floor(distance / (day)) }),
+        document.querySelectorAll('.js-timer-hours').forEach((time)=>{time.innerText = Math.floor((distance % (day)) / (hour)) }),
+        document.querySelectorAll('.js-timer-minutes').forEach((time)=>{time.innerText = Math.floor((distance % (hour)) / (minute)) }),
+        document.querySelectorAll('.js-timer-seconds').forEach((time)=>{time.innerText = Math.floor((distance % (minute)) / second); })
+      }, second)
+</script>

@@ -1,0 +1,479 @@
+<div class="Panel">
+  <div class="Panel__Title Heading u-h2">
+    <span>{{ settings.ship_title }}</span> 
+    <span class="shipping_i_span shipping_i_icon">
+      <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+        <title>Info</title>
+        <path d="M9 0a9 9 0 1 0 0 18A9 9 0 0 0 9 0zm.373 3.33a1.017 1.017 0 0 1 1.018 1.08c0 .734-.597 1.366-1.281 1.366-.6 0-1.014-.44-1.012-1.08A1.332 1.332 0 0 1 9.373 3.33zm-.267 10.926c-.204.153-.433.27-.677.344-.768.26-1.356-.222-1.233-1.023.099-.637.225-1.272.383-1.897.22-.862.479-1.715.682-2.613L7.2 9.932l-.38-.86.688-.587.02-.017v.001c.316-.26.646-.504.988-.73.286-.157.608-.241.936-.244.54-.03.85.34.72.862-.241.952-.531 1.903-.79 2.857-.171.628-.326 1.26-.488 1.896l.068.039c.504-.452 1.006-.9 1.517-1.366l.7.702c-.7.603-1.376 1.195-2.073 1.77z" fill="#B2B5BB" fill-rule="nonzero"></path>
+      </svg>
+      <div class="tooltipmsg">
+        {{ settings.ship_tooltip }}
+      </div>
+    </span>
+  </div>
+
+  <div class="Panel__Content">
+    <div class="ShippingEstimator">
+      <div id="cs_shipping_rate">
+        <div  class="form">
+          {% if template contains 'product' %}
+            {% assign v = product.selected_or_first_available_variant %}
+            <input type="hidden" name="product_id" value="{{ product.id }}" />
+            <input type="hidden" name="variant_id" value="{{ v.id }}" />
+            <input type="hidden" name="sku" value="{{ v.sku }}" />
+            <input type="hidden" name="type" value="{{ product.type }}" />
+            <input type="hidden" name="tag" value="{{ product.tags | join: ',' }}" />
+            <input type="hidden" name="name" value="{{ product.title }}" />
+            <input type="hidden" name="quantity" value="{{ v.inventory_quantity }}" />
+            <input type="hidden" name="grams" value="{{ v.weight }}" />
+            <input type="hidden" name="price" value="{{ v.price }}" />
+            <input type="hidden" name="vendor" value="{{ product.vendor }}" />
+          {% else %}
+            <input type="hidden" name="quantity" value="{{ cart.item_count }}" />
+            <input type="hidden" name="price" value="{{ cart.total_price }}" />
+            <input type="hidden" name="grams" value="{{ cart.total_weight }}" />
+          {% endif %}
+          
+          <div class="ShippingEstimator__Form" style="padding-bottom:10px;">
+            <input id="input_postcode" type="text" class="input form-element Form__Input quantity__input" maxlength="5" name="postal_code" placeholder="{{ settings.ship_placeholder }}">
+            <button id="search_postcode" type="submit" class=" btn button Button button button--full-width button--secondary">{{ settings.ship_btn }}</button>
+          </div>
+
+          <div class="ShippingEstimator__Error" style="display: none"></div>
+          <div id="shipping_rates"></div>
+          
+          <div class="pickuprate">
+            <ul class="resMsg">
+              <li><span><b>Free warehouse pickup</b>: Ridgewood, NY, 11385</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+
+<script>
+  $(document).ready(function () {
+    function getState(zipcode) {
+      let st;
+      let state;
+
+      /* Code cases alphabetized by state */
+      if (zipcode >= 35000 && zipcode <= 36999) {
+          st = 'AL';
+          state = 'Alabama';
+      } else if (zipcode >= 99500 && zipcode <= 99999) {
+          st = 'AK';
+          state = 'Alaska';
+      } else if (zipcode >= 85000 && zipcode <= 86999) {
+          st = 'AZ';
+          state = 'Arizona';
+      } else if (zipcode >= 71600 && zipcode <= 72999) {
+          st = 'AR';
+          state = 'Arkansas';
+      } else if (zipcode >= 90000 && zipcode <= 96699) {
+          st = 'CA';
+          state = 'California';
+      } else if (zipcode >= 80000 && zipcode <= 81999) {
+          st = 'CO';
+          state = 'Colorado';
+      } else if ((zipcode >= 6000 && zipcode <= 6389) || (zipcode >= 6391 && zipcode <= 6999)) {
+          st = 'CT';
+          state = 'Connecticut';
+      } else if (zipcode >= 19700 && zipcode <= 19999) {
+          st = 'DE';
+          state = 'Delaware';
+      } else if (zipcode >= 32000 && zipcode <= 34999) {
+          st = 'FL';
+          state = 'Florida';
+      } else if ( (zipcode >= 30000 && zipcode <= 31999) || (zipcode >= 39800 && zipcode <= 39999) ) {
+          st = 'GA';
+          state = 'Georgia';
+      } else if (zipcode >= 96700 && zipcode <= 96999) {
+          st = 'HI';
+          state = 'Hawaii';
+      } else if (zipcode >= 83200 && zipcode <= 83999) {
+          st = 'ID';
+          state = 'Idaho';
+      } else if (zipcode >= 60000 && zipcode <= 62999) {
+          st = 'IL';
+          state = 'Illinois';
+      } else if (zipcode >= 46000 && zipcode <= 47999) {
+          st = 'IN';
+          state = 'Indiana';
+      } else if (zipcode >= 50000 && zipcode <= 52999) {
+          st = 'IA';
+          state = 'Iowa';
+      } else if (zipcode >= 66000 && zipcode <= 67999) {
+          st = 'KS';
+          state = 'Kansas';
+      } else if (zipcode >= 40000 && zipcode <= 42999) {
+          st = 'KY';
+          state = 'Kentucky';
+      } else if (zipcode >= 70000 && zipcode <= 71599) {
+          st = 'LA';
+          state = 'Louisiana';
+      } else if (zipcode >= 3900 && zipcode <= 4999) {
+          st = 'ME';
+          state = 'Maine';
+      } else if (zipcode >= 20600 && zipcode <= 21999) {
+          st = 'MD';
+          state = 'Maryland';
+      } else if ( (zipcode >= 1000 && zipcode <= 2799) || (zipcode == 5501) || (zipcode == 5544 ) ) {
+          st = 'MA';
+          state = 'Massachusetts';
+      } else if (zipcode >= 48000 && zipcode <= 49999) {
+          st = 'MI';
+          state = 'Michigan';
+      } else if (zipcode >= 55000 && zipcode <= 56899) {
+          st = 'MN';
+          state = 'Minnesota';
+      } else if (zipcode >= 38600 && zipcode <= 39999) {
+          st = 'MS';
+          state = 'Mississippi';
+      } else if (zipcode >= 63000 && zipcode <= 65999) {
+          st = 'MO';
+          state = 'Missouri';
+      } else if (zipcode >= 59000 && zipcode <= 59999) {
+          st = 'MT';
+          state = 'Montana';
+      } else if (zipcode >= 27000 && zipcode <= 28999) {
+          st = 'NC';
+          state = 'North Carolina';
+      } else if (zipcode >= 58000 && zipcode <= 58999) {
+          st = 'ND';
+          state = 'North Dakota';
+      } else if (zipcode >= 68000 && zipcode <= 69999) {
+          st = 'NE';
+          state = 'Nebraska';
+      } else if (zipcode >= 88900 && zipcode <= 89999) {
+          st = 'NV';
+          state = 'Nevada';
+      } else if (zipcode >= 3000 && zipcode <= 3899) {
+          st = 'NH';
+          state = 'New Hampshire';
+      } else if (zipcode >= 7000 && zipcode <= 8999) {
+          st = 'NJ';
+          state = 'New Jersey';
+      } else if (zipcode >= 87000 && zipcode <= 88499) {
+          st = 'NM';
+          state = 'New Mexico';
+      } else if ( (zipcode >= 10000 && zipcode <= 14999) || (zipcode == 6390) || (zipcode == 501) || (zipcode == 544) ) {
+          st = 'NY';
+          state = 'New York';
+      } else if (zipcode >= 43000 && zipcode <= 45999) {
+          st = 'OH';
+          state = 'Ohio';
+      } else if ((zipcode >= 73000 && zipcode <= 73199) || (zipcode >= 73400 && zipcode <= 74999) ) {
+          st = 'OK';
+          state = 'Oklahoma';
+      } else if (zipcode >= 97000 && zipcode <= 97999) {
+          st = 'OR';
+          state = 'Oregon';
+      } else if (zipcode >= 15000 && zipcode <= 19699) {
+          st = 'PA';
+          state = 'Pennsylvania';
+      } else if (zipcode >= 300 && zipcode <= 999) {
+          st = 'PR';
+          state = 'Puerto Rico';
+      } else if (zipcode >= 2800 && zipcode <= 2999) {
+          st = 'RI';
+          state = 'Rhode Island';
+      } else if (zipcode >= 29000 && zipcode <= 29999) {
+          st = 'SC';
+          state = 'South Carolina';
+      } else if (zipcode >= 57000 && zipcode <= 57999) {
+          st = 'SD';
+          state = 'South Dakota';
+      } else if (zipcode >= 37000 && zipcode <= 38599) {
+          st = 'TN';
+          state = 'Tennessee';
+      } else if ( (zipcode >= 75000 && zipcode <= 79999) || (zipcode >= 73301 && zipcode <= 73399) ||  (zipcode >= 88500 && zipcode <= 88599) ) {
+          st = 'TX';
+          state = 'Texas';
+      } else if (zipcode >= 84000 && zipcode <= 84999) {
+          st = 'UT';
+          state = 'Utah';
+      } else if (zipcode >= 5000 && zipcode <= 5999) {
+          st = 'VT';
+          state = 'Vermont';
+      } else if ( (zipcode >= 20100 && zipcode <= 20199) || (zipcode >= 22000 && zipcode <= 24699) || (zipcode == 20598) ) {
+          st = 'VA';
+          state = 'Virginia';
+      } else if ( (zipcode >= 20000 && zipcode <= 20099) || (zipcode >= 20200 && zipcode <= 20599) || (zipcode >= 56900 && zipcode <= 56999) ) {
+          st = 'DC';
+          state = 'Washington DC';
+      } else if (zipcode >= 98000 && zipcode <= 99499) {
+          st = 'WA';
+          state = 'Washington';
+      } else if (zipcode >= 24700 && zipcode <= 26999) {
+          st = 'WV';
+          state = 'West Virginia';
+      } else if (zipcode >= 53000 && zipcode <= 54999) {
+          st = 'WI';
+          state = 'Wisconsin';
+      } else if (zipcode >= 82000 && zipcode <= 83199) {
+          st = 'WY';
+          state = 'Wyoming';
+      } else {
+          st = 'none';
+          state = 'none';
+          console.log('No state found matching', zipcode);
+      }
+    
+      return st;
+    }
+
+    var wmf = "{{ shop.money_format }}";
+
+    $("#search_postcode").on("click", function (e) {
+      $('.ShippingEstimator__Error, #shipping_rates').hide();
+      e.preventDefault();
+      
+      var form = $(this).closest('.form');
+      var destinations = {};
+      var rate = [];
+      var temp = {};
+      
+      var pc = form.find('[name="postal_code"]').val();
+      var destination = {
+        "postal_code": pc,
+        "province": getState(pc),
+        "country": "US"
+      };
+      
+      destinations["destination"] = destination;
+      temp = destinations;
+      
+      var quantity = form.find('[name="quantity"]').val();
+      var grams = form.find('[name="grams"]').val();
+      var price = form.find('[name="price"]').val();
+      var vendor = form.find('[name="vendor"]').val();
+      var product_id = form.find('[name="product_id"]').val();
+      
+      var variant_id = form.find('[name="variant_id"]').val();
+      var sku = form.find('[name="sku"]').val();
+      var type = form.find('[name="type"]').val();
+      var tag = form.find('[name="tag"]').val();
+      var name = form.find('[name="name"]').val();
+      
+      var t =  /^\d+$/.test(pc);
+      
+      if(pc.length != 5 || t == false) {
+        $('.ShippingEstimator__Error').html('{{ settings.ship_err_req }}').show();
+        return false;
+      } 
+      
+      var items = [];
+      var item = {
+        "quantity": 1,
+        "grams": grams,
+        "price": price,
+        "vendor": vendor,
+        "product_id": product_id,
+        "variant_id": variant_id,
+        "sku": sku,
+        "type": type,
+        "tag": tag,
+        "name": name
+      };
+      
+      items.push(item);
+      temp["items"] = items;
+      var shop = Shopify.shop;
+      rate = temp;
+      
+      var html ='';
+      
+      $.ajax({
+        url: "https://sbz.cirkleinc.com/front-widget",
+        data: {rate, shop},
+        dataType: 'JSON',
+        crossDomain: true,
+        type: "post",
+        success: function (srates) {
+          if($('#input_postcode').val() == ""){
+            $('.ShippingEstimator__Error').html('{{ settings.ship_err_req }}').show();
+          } else {
+            if(typeof srates.rates == 'undefined') {
+              $('.ShippingEstimator__Error').html('{{ settings.ship_err }}').show();
+              return false;
+            }
+            if(srates.rates.length <= 0) {
+              if($('#input_postcode').val() == ""){
+                $('.ShippingEstimator__Error').html('Enter the zip code.').show();
+              } else {
+                $('.ShippingEstimator__Error').html('<ul class="resMsg"><li>{{ settings.ship_err }}</li>').show();
+              }
+            } else {
+              html += '<ul class="resMsg">';
+              $(srates.rates).each(function(index,val) {
+                $('.ShippingEstimator__Error').hide();
+                var desc = (val.description != '') ? '<br/><span class="shipdesc">'+val.description+'</span>' : '';
+                console.log('val.total_price-- {{ product.selected_or_first_available_variant.price  }}', val.total_price);
+                if(val.total_price == 0 && {{ product.selected_or_first_available_variant.price  }} > 150000){
+                  html += '<li><span>'+val.service_name +' - Free for items/orders over $1,500!</li>';
+                } else {
+                  html += '<li><span>'+val.service_name +' - ' +Shopify.formatMoney(val.total_price,wmf)+'</span>'+desc+'</li>';
+                }
+              });
+              html += '</ul>';
+              $('#shipping_rates').html(html).show();
+            }
+          }
+        },
+      });
+    });
+  });
+</script>
+
+<style>
+  .Panel__Title.Heading .shipping_i_span {
+    display: inline-flex;
+    cursor: pointer;
+    position: relative;
+    padding-left: 3px;
+  }
+  
+  .tooltipmsg.is-new-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .tooltipmsg {
+    position: absolute;
+    background: #fff;
+    box-shadow: 0 0 7px #ccc;
+    border-radius: 3px;
+    z-index: 9;
+    width: 250px;
+    font-size: 12px;
+    padding: 10px 10px 0;
+    text-transform: uppercase;
+    left: 50%;
+    top: 105%;
+    transform: translate(-50%, 0%);
+    transition: all 0.2s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  /* .Panel__Title .shipping_i_span:hover .tooltipmsg{
+      display: block;
+  } */
+  
+  .tooltipmsg p {
+    margin: 0 0 5px 0;
+  }
+  
+  ul.resMsg {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+    font-size: 13px;
+  }
+  
+  .Panel__Title.Heading.u-h2 svg {
+    width: 14px;
+    vertical-align: middle;
+  }
+  
+  .Panel__Title.Heading.u-h2 span {
+    vertical-align: middle;
+  }
+  
+  .flexBox {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .ShippingEstimator__Form {
+    display: flex;
+  }
+  
+  .Panel {
+    max-width: 100%;
+    margin: 20px 0;
+    padding: 0;
+    text-align: left;
+  }
+  
+  div#shopify-section-pr_description {
+    padding-top: 0;
+    margin-top: 10px !important;
+  }
+  
+  #shipping_rates li span{ 
+    color: #008000; 
+  }
+  
+  #shipping_rates li span.shipdesc {
+    color: #555;
+    font-size: 13px;
+  }
+ 
+  #shipping_rates ::marker{
+    content:none;
+  }
+  
+  #cs_shipping_rate  .ShippingEstimator__Error {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #ff0000;
+  }
+  
+  #cs_shipping_rate button#search_postcode:hover {
+    background: #fff;
+    border: 1px solid #000 !important;
+    color: #000 !important;
+  }
+  
+  #cs_shipping_rate button#search_postcode:before, #cs_shipping_rate button#search_postcode:after {
+    content: none;
+  }
+  
+  .Panel__Title.Heading.u-h2 {
+    margin-bottom: 10px;
+    font-size: 14px;
+    position: relative;
+  }
+  
+  #cs_shipping_rate  .ShippingEstimator__Error a {
+    text-decoration: underline;
+  }
+  
+  #cs_shipping_rate button#search_postcode {
+    border: 1px solid #000;
+    background: #000;
+    width: auto;
+    color: #fff;
+    min-height: 30px;
+    font-size: 14px;
+  }
+  
+  #input_postcode {
+    border-radius: 0 !important;
+    vertical-align: middle;
+    border: 1px solid;
+    font-size: 14px;
+  }
+  
+  div#shipping_rates ul font {
+    padding: 0;
+  }
+  
+  @media(max-width:767px) {
+    .flexBox {
+      display: block;
+    }
+    
+    button.btn_checkout {
+      margin-top: 10px !important;
+    }
+  }
+</style>

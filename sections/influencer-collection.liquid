@@ -1,0 +1,164 @@
+<div class="influencer-collection-section">
+  <section style="background-color: {{ section.settings.background_color }};">
+    <div class="influencer-collection-info">
+      <h1>{{ section.settings.header_text }}</h1>
+      
+      <a href="/collections/the-toby-collection">{{ section.settings.subtext }} <span class="icon-wrap">{% render 'icon-arrow' %}</span></a>
+    </div>
+    
+    <div class="influencer-images">
+      {% for block in section.blocks %}
+        <img src="{{ block.settings.image | img_url: '1920x' }}"
+             alt="{{ block.settings.image.alt }}"
+             width="25%"
+             height="58vh"
+             style="width: 25%; height: 58vh; object-fit: cover;"
+             loading="lazy">
+      {% endfor %}
+    </div>
+  </section>
+</div>
+
+<style>
+  @font-face {
+    font-family: "HelveticaBold";
+    src: url('https://cdn.shopify.com/s/files/1/0732/8795/8803/files/HelveticaBold.woff2?v=1693975871') format('woff2'),
+         url('https://cdn.shopify.com/s/files/1/0732/8795/8803/files/HelveticaBold.woff?v=1693975871') format('woff');
+  }
+  
+  .influencer-collection-section {
+    margin-top: 90px;
+  }
+
+  .influencer-collection-info {
+    padding: 40px 50px 30px;
+  }
+
+  .influencer-collection-info h1 {
+    font-family: "HelveticaBold" !important;
+    margin: 0px;
+    font-size: 40px;
+  }
+
+  .influencer-collection-info a {
+    font-family: "HelveticaBold" !important;
+    margin: 0px;
+    font-size: 1.6rem;
+    text-decoration: none;
+    color: black;
+    transition: all 0.1s;
+  }
+  
+  .influencer-images {
+    height: 58vh;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  .influencer-images img {
+    margin: 0px;
+  }
+  
+  @media (min-width: 768px) {
+    .influencer-images img {
+      width: 25%;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .influencer-collection-info {
+      padding: 20px 15px 0px;
+    }
+
+    .influencer-collection-info h1 {
+      font-size: 30.2px;
+    }
+
+    .influencer-collection-info a {
+      font-size: 1.5rem;
+    }
+
+    .influencer-images {
+      padding: 0px 15px;
+      position: relative;
+    }
+
+    .influencer-images img {
+      width: 93%!important;
+      transition: opacity 0.5s;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 15px;
+      right: 15px;
+    }
+
+    .influencer-images img.active {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    if (window.innerWidth <= 767) { 
+      let images = document.querySelectorAll('.influencer-images img');
+      let currentImageIndex = 0;
+
+      images[currentImageIndex].classList.add('active'); 
+
+      setInterval(function() {
+        images[currentImageIndex].classList.remove('active');
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        images[currentImageIndex].classList.add('active');
+      }, 3500);  // Added 500ms to account for the fade transition time
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Influencer Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "header_text",
+      "label": "Header Text",
+      "default": "Influencer Collection"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Our products curated by"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#B6E4F7" 
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Collection Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ],
+      "limit": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Influencer Collection",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

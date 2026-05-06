@@ -1,0 +1,151 @@
+<style>
+  .tmrs {
+    display: grid;
+    grid-template-columns: 20% 1% 20% 1% 20% 1% 20%;
+    width: 100%;
+    text-align: center;
+    line-height: 42px;
+    column-gap: 1px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sing-tmr {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    background:{{ settings.back }};
+    padding: 6px 7px;
+  }
+
+  .sing-tmr p {
+    margin: 0;
+    font-size: 70px;
+    font-weight: 600 !important;
+    color:{{ settings.digi }};
+  }
+
+  .col {
+    font-size: 29px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    {% if settings.colon %} opacity:0;{% endif %}
+  }
+
+  .timer_size {
+    font-size: 33px;
+    font-weight: 800;
+  }
+</style>
+
+<div>
+  <span class="timer_size">{{ settings.tlt }}</span>
+  <div class="tmrs">
+    <div class="sing-tmr" style="{% if settings.brder %} border: 1px solid grey; {% endif %}">
+      <p class="js-timer-days"></p>
+      <span style="color:{{ settings.digi }}">DAYS</span>
+    </div>
+    
+    <span class="col">:</span>
+
+    <div class="sing-tmr" style="{% if settings.brder %} border: 1px solid grey; {% endif %}">
+      <p class="js-timer-hours"></p>
+      <span style="color:{{ settings.digi }}">HRS</span>
+    </div>
+    
+    <span class="col">:</span>
+
+    <div class="sing-tmr" style="{% if settings.brder %} border: 1px solid grey; {% endif %}">
+      <p class="js-timer-minutes"></p>
+      <span style="color:{{ settings.digi }}">MIN</span>
+    </div>
+    
+    <span class="col">:</span>
+
+    <div class="sing-tmr" style="{% if settings.brder %} border: 1px solid grey; {% endif %}">
+      <p class="js-timer-seconds"></p>
+      <span style="color:{{ settings.digi }};  ">SEC</span>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript"> 
+  var width = $(window).width();
+  if (width <= 600) {
+    console.log(width);
+
+    var second = 1000, 
+        minute = second * 60, 
+        hour = minute * 60, 
+        day = hour * 24; 
+
+    var countDown = new Date('{{settings.texf}}').getTime(), 
+        x = setInterval(function() {
+          var now = new Date().getTime(), 
+              distance = countDown - now; 
+      
+          document.querySelectorAll('.js-timer-days').forEach((time) => {
+            time.innerText = Math.floor(distance / (day));
+          }), 
+      
+          document.querySelectorAll('.js-timer-hours').forEach((time) => {
+            time.innerText = Math.floor((distance % (day)) / (hour));
+          }), 
+      
+          document.querySelectorAll('.js-timer-minutes').forEach((time) => {
+            time.innerText = Math.floor((distance % (hour)) / (minute));
+          }), 
+      
+          document.querySelectorAll('.js-timer-seconds').forEach((time) => {
+            time.innerText = Math.floor((distance % (minute)) / second);
+          })
+        }, second)
+  }
+
+  if (width >= 600) {
+    console.log(width);
+    var second = 1000, 
+        minute = second * 60, 
+        hour = minute * 60, 
+        day = hour * 24; 
+
+    var countDown = new Date('{{settings.texf}}').getTime(), 
+        x = setInterval(function() { 
+          var now = new Date().getTime(), 
+              distance = countDown - now; 
+          var newhour = Math.floor((distance % (day)) / (hour));
+          var newminute = Math.floor((distance % (hour)) / (minute));
+          var newsecond = Math.floor((distance % (minute)) / second);
+
+          if (newhour < "10") {  
+            newhour = "0" + newhour; 
+          }
+          if (newminute < "10") { 
+            newminute = "0" + newminute; 
+          }
+          if (newsecond < "10") { 
+            newsecond = "0" + newsecond; 
+          }
+
+          document.querySelectorAll('.js-timer-days').forEach((time) => {
+            time.innerText = Math.floor(distance / (day));
+          }), 
+
+          document.querySelectorAll('.js-timer-hours').forEach((time) => {
+            time.innerText = newhour;
+          }), 
+
+          document.querySelectorAll('.js-timer-minutes').forEach((time) => {
+            time.innerText = newminute;
+          }), 
+
+          document.querySelectorAll('.js-timer-seconds').forEach((time) => {
+            time.innerText = newsecond;
+          })
+      }, second)
+  }
+</script>

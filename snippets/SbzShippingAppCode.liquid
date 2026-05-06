@@ -1,0 +1,37 @@
+<div id="csShippingAppCode"></div>
+{% comment %}
+{% if content_for_header contains 'sbzstag' %}
+  <script>
+    var csCart = {{ cart | json }};
+    document.addEventListener("DOMContentLoaded", function(event) {
+      if (window.jQuery) {
+        csJq = window.jQuery;
+        if (typeof csShopify !== "undefined") {
+          csDatePickerMinJs(csJq);
+        }
+      } else {
+        csLoadScript("{{ 'sbz_jquery.js' | asset_url }}", function() {
+          csJq = jQuery.noConflict(true);
+          if (typeof csShopify !== "undefined") {
+            csDatePickerMinJs(csJq);
+          }
+        });
+      }
+      function csDatePickerMinJs(csJq) {
+        csLoadCss("{{ 'sbz_csShippingApp.css' | asset_url }}");
+        if (typeof csJq.fn.datepicker != "undefined") {
+          MainCode(csJq);
+        } else {
+          csLoadScript("{{ 'sbz_datepicker.js' | asset_url }}", function() {
+            MainCode(csJq);
+          });
+        }
+      }
+    });
+  </script>
+  <script src="https://sbz.cirkleinc.com/assets/js/front/csShippingAppV3.js"></script>
+ <!-- <script src="https://shoptresi.com/cdn/shop/t/110/assets/csShippingAppV2.js?v=119727278034847147531701711271"></script> -->
+{% endif %}
+
+
+{% endcomment %}

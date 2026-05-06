@@ -1,0 +1,663 @@
+{{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+
+<link rel="stylesheet" href="{{ 'component-slider.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'component-slider.css' | asset_url | stylesheet_tag }}</noscript>
+
+{%- liquid
+  assign columns_mobile_int = section.settings.columns_mobile | plus: 0
+  assign show_mobile_slider = false
+  if section.settings.swipe_on_mobile and section.blocks.size > columns_mobile_int
+    assign show_mobile_slider = true
+  endif
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="home-page-scenes-list-wrapper collection-list-wrapper isolate{% if show_mobile_slider %} page-width-desktop{% endif %}{% if section.settings.title == blank %} no-heading{% endif %}{% if section.settings.show_view_all == false or section.blocks.size > collections.size %} no-mobile-link{% endif %} section-{{ section.id }}-padding">
+    {%- unless section.settings.title == blank -%}
+      <div class="home-page-scenes-list-title-wrapper collection-list-title-wrapper title-wrapper-with-link{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% else %} title-wrapper--self-padded-mobile{% endif %} title-wrapper--no-top-margin">
+        <h2
+          id="SectionHeading-{{ section.id }}"
+          class="home-page-scenes-list-title collection-list-title home-page-scenes-{{ section.settings.heading_size }}-desktop home-page-scenes-{{ section.settings.mobile_heading_size }}-mobile"
+        >
+          {{ section.settings.title | escape }}
+        </h2>
+
+        {%- if section.settings.show_view_all -%}
+          <div class="home-page-scenes-list-view-all center collection-list-view-all">
+            <a
+              href="{{ section.settings.view_all_button_link }}"
+              id="ViewAllButton-{{ section.id }}"
+              class="home-page-scenes-list-view-all-button"
+              aria-labelledby="ViewAllButton-{{ section.id }} SectionHeading-{{ section.id }}"
+              style="color: {{ section.settings.button_text_color }}; background-color: {{ section.settings.button_background_color }}; --data-hover-bg: {{ section.settings.button_hover_background_color }}; --data-hover-color: {{ section.settings.button_hover_text_color }};"
+            >
+              {{- 'sections.collection_list.view_all' | t -}}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endunless -%}
+
+    <slider-component class="home-page-scenes-slider-mobile-gutter slider-mobile-gutter">
+      <div
+        class="home-page-scenes-swiper-container swiper-container"
+        data-scenes-desktop="{{ section.settings.scenes_desktop }}"
+      >
+        <div class="home-page-scenes-swiper-wrapper swiper-wrapper">
+          {%- liquid
+            assign columns = section.blocks.size
+            if columns > 3
+              assign columns = 3
+            endif
+          -%}
+          {%- for block in section.blocks -%}
+            <div
+              class="home-page-scenes-swiper-slide home-page-scenes-list__item swiper-slide"
+              data-url="{{ block.settings.collection.url }}"
+            >
+              {%- assign media_aspect_ratio = section.settings.desktop_image_ratio -%}
+              {%- if request.page_type == 'mobile' -%}
+                {%- assign media_aspect_ratio = section.settings.mobile_image_ratio -%}
+              {%- endif -%}
+
+              {% render 'home-page-scenes-card-collection',
+                card_collection: block.settings.collection,
+                media_aspect_ratio: media_aspect_ratio,
+                columns: columns,
+                heading_color: block.settings.heading_color,
+                heading_hover_color: block.settings.heading_hover_color
+              %}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div
+          class="home-page-scenes-swiper-button-prev swiper-button-prev"
+          style="color: {{ section.settings.arrow_color }}; background-color: {{ section.settings.arrow_background_color }}; --data-hover-bg: {{ section.settings.arrow_hover_background_color }}; --data-hover-color: {{ section.settings.arrow_hover_color }};"
+        ></div>
+        <div
+          class="home-page-scenes-swiper-button-next swiper-button-next"
+          style="color: {{ section.settings.arrow_color }}; background-color: {{ section.settings.arrow_background_color }}; --data-hover-bg: {{ section.settings.arrow_hover_background_color }}; --data-hover-color: {{ section.settings.arrow_hover_color }};"
+        ></div>
+      </div>
+      {%- if show_mobile_slider -%}
+        <div class="home-page-scenes-slider-buttons slider-buttons no-js-hidden">
+          <button
+            type="button"
+            class="slider-button slider-button--prev"
+            name="previous"
+            aria-label="{{ 'general.slider.previous_slide' | t }}"
+          >
+            {% render 'icon-caret' %}
+          </button>
+          <div class="slider-counter caption">
+            <span class="slider-counter--current">1</span>
+            <span aria-hidden="true"> / </span>
+            <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+            <span class="slider-counter--total">{{ section.blocks.size }}</span>
+          </div>
+          <button
+            type="button"
+            class="slider-button slider-button--next"
+            name="next"
+            aria-label="{{ 'general.slider.next_slide' | t }}"
+          >
+            {% render 'icon-caret' %}
+          </button>
+        </div>
+      {%- endif -%}
+    </slider-component>
+  </div>
+</div>
+
+{%- style -%}
+  .home-page-section-scenes-list {
+    border-top: 2px solid black;
+  }
+
+  .home-page-scenes-list-wrapper {
+    padding: 20px 0px 40px;
+    max-width: unset;
+  }
+
+  .home-page-scenes-list-title-wrapper {
+    margin-bottom: 20px;
+    padding: 0px 50px;
+    align-items: center;
+  }
+
+  .home-page-scenes-h0-desktop {
+    font-size: 6rem;
+  }
+
+  .home-page-scenes-h1-desktop {
+    font-size: 5rem;
+  }
+
+  .home-page-scenes-h2-desktop {
+    font-size: 4rem;
+  }
+
+  .home-page-scenes-list-view-all {
+    margin: 0px 0px 5px;
+    padding: 5px 0px;
+  }
+
+  .home-page-scenes-list-view-all-button {
+    font-size: 2rem;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    padding: 0px 40px;
+    border: 2px solid black;
+    transition: all 0.3s ease;
+  }
+
+  .home-page-scenes-list-view-all-button:hover {
+    background-color: var(--data-hover-bg) !important;
+    color: var(--data-hover-color) !important;
+  }
+
+  .home-page-scenes-swiper-container {
+    padding: 0px 50px;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .home-page-scenes-swiper-container {
+    --swiper-navigation-top-offset: 0px;
+    --swiper-navigation-sides-offset: 0px;
+  }
+
+  .home-page-scenes-swiper-wrapper {
+    display: flex;
+  }
+
+  .home-page-scenes-swiper-slide {
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .home-page-scenes-swiper-button-prev,
+  .home-page-scenes-swiper-button-next {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 100%;
+    position: absolute;
+    top: 22px;
+    z-index: 10;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+  }
+
+  .home-page-scenes-swiper-button-prev:hover {
+    background-color: var(--data-hover-bg) !important;
+    color: var(--data-hover-color) !important;
+  }
+
+  .home-page-scenes-swiper-button-next:hover {
+    background-color: var(--data-hover-bg) !important;
+    color: var(--data-hover-color) !important;
+  }
+
+  .home-page-scenes-list-grid {
+    column-gap: 2px;
+    row-gap: 2px;
+  }
+
+  .home-page-scenes-list__item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .home-page-scenes-list__item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color 0.3s ease;
+    z-index: 1;
+  }
+
+  .home-page-scenes-list__item:hover::before {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .home-page-scenes-card__inner {
+    height: 100%;
+  }
+
+  .home-page-scenes-card__content {
+    display: none !important;
+  }
+
+  .home-page-scenes-card__title {
+    position: absolute;
+    margin: 0px;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+
+  .home-page-scenes-card__heading {
+    visibility: hidden;
+  }
+
+  .home-page-scenes-list__item:hover .home-page-scenes-card__heading {
+    color: var(--data-hover-color) !important;
+  }
+
+  .home-page-scenes-slider-buttons {
+    display: none;
+  }
+
+  @media (min-width: 914px) {
+    .home-page-scenes-list__item {
+      max-width: calc(100% / var(--columns)) !important;
+    }
+  }
+
+  @media (max-width: 913px) {
+    .home-page-scenes-list-wrapper {
+      padding: 15px 0px 25px;
+    }
+
+    .home-page-scenes-list-title-wrapper {
+      margin-bottom: 15px;
+      padding: 0px 15px;
+      flex-direction: column;
+      align-items: start;
+    }
+
+    .home-page-scenes-h0-mobile {
+      font-size: 3.5rem;
+    }
+
+    .home-page-scenes-h1-mobile {
+      font-size: 3rem;
+    }
+
+    .home-page-scenes-h2-mobile {
+      font-size: 2.5rem;
+    }
+
+    .home-page-scenes-list-view-all-button {
+      padding: 5px 30px;
+      font-size: 1.5rem;
+    }
+
+    .home-page-scenes-swiper-container {
+      padding: 0px;
+    }
+
+    .home-page-scenes-swiper-button-prev,
+    .home-page-scenes-swiper-button-next {
+      display: none !important;
+    }
+
+    .home-page-scenes-list__item {
+      padding: 0px !important;
+    }
+  }
+{%- endstyle -%}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const listItems = document.querySelectorAll(".home-page-scenes-list__item");
+
+    listItems.forEach((item) => {
+      item.addEventListener("click", function () {
+        const url = item.dataset.url;
+        if (url) {
+          window.location.href = url;
+        }
+      });
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const setSwiperContainer = () => {
+      const screenWidth = window.innerWidth;
+
+      if (screenWidth <= 913) {
+        var swiper = new Swiper('.home-page-scenes-swiper-container', {
+          slidesPerView: 1.1,
+          spaceBetween: 2,
+          loop: true,
+          navigation: {
+            nextEl: '.home-page-scenes-swiper-button-next',
+            prevEl: '.home-page-scenes-swiper-button-prev',
+          },
+        });
+      } else {
+        const swiperContainer = document.querySelector('.home-page-scenes-swiper-container');
+        const scenesDesktop = parseInt(swiperContainer.dataset.scenesDesktop, 10) || 4;
+
+        var swiper = new Swiper('.home-page-scenes-swiper-container', {
+          slidesPerView: scenesDesktop,
+          spaceBetween: 2,
+          loop: true,
+          navigation: {
+            nextEl: '.home-page-scenes-swiper-button-next',
+            prevEl: '.home-page-scenes-swiper-button-prev',
+          },
+        });
+      }
+    };
+
+    setSwiperContainer();
+    window.addEventListener("resize", setSwiperContainer);
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Home Page Scenes List",
+  "tag": "section",
+  "class": "section section-collection-list home-page-section-scenes-list",
+  "max_blocks": 15,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Collections",
+      "label": "t:sections.collection-list.settings.title.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h0",
+      "label": "Desktop heading size"
+    },
+    {
+      "type": "select",
+      "id": "mobile_heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h0",
+      "label": "Mobile heading size"
+    },
+    {
+      "type": "select",
+      "id": "desktop_image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.collection-list.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.collection-list.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.collection-list.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "portrait",
+      "label": "Desktop image ratio"
+    },
+    {
+      "type": "select",
+      "id": "mobile_image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.collection-list.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.collection-list.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.collection-list.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "square",
+      "label": "Mobile image ratio"
+    },
+    {
+      "type": "range",
+      "id": "scenes_desktop",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 4,
+      "label": "Number of scenes shown on desktop"
+    },
+    /*
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "t:sections.all.colors.accent_1.label"
+        },
+        {
+          "value": "accent-2",
+          "label": "t:sections.all.colors.accent_2.label"
+        },
+        {
+          "value": "background-1",
+          "label": "t:sections.all.colors.background_1.label"
+        },
+        {
+          "value": "background-2",
+          "label": "t:sections.all.colors.background_2.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.all.colors.inverse.label"
+        }
+      ],
+      "default": "background-1",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info"
+    },
+    */
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "default": false,
+      "label": "Enable \"View all\" button"
+    },
+    {
+      "type": "url",
+      "id": "view_all_button_link",
+      "label": "\"View all\" button link",
+      "default": "/"
+    },
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Button background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background_color",
+      "label": "Button hover background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Button hover text color",
+      "default": "#000000"
+    },
+    {
+      "type": "paragraph",
+      "content": "Arrow Settings"
+    },
+    {
+      "type": "color",
+      "id": "arrow_background_color",
+      "label": "Arrow background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "arrow_hover_background_color",
+      "label": "Arrow hover background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "arrow_hover_color",
+      "label": "Arrow hover color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.collection-list.settings.header_mobile.content"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.collection-list.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.collection-list.settings.columns_mobile.options__2.label"
+        }
+      ],
+      "default": "1",
+      "label": "t:sections.collection-list.settings.columns_mobile.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "swipe_on_mobile",
+      "default": false,
+      "label": "t:sections.collection-list.settings.swipe_on_mobile.label"
+    }
+    /*
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+    */
+  ],
+  "blocks": [
+    {
+      "type": "featured_collection",
+      "name": "t:sections.collection-list.blocks.featured_collection.name",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.collection-list.blocks.featured_collection.settings.collection.label"
+        }
+        /*
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "heading_hover_color",
+          "label": "Heading hover color",
+          "default": "#ffffff"
+        }
+        */
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Page Scenes List",
+      "blocks": [
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
