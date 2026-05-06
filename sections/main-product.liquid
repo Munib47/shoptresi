@@ -3,14 +3,22 @@
   class="page-width section-{{ section.id }}-padding"
   data-section="{{ section.id }}"
 >
-  {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
-  {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
-  {{ 'component-price.css' | asset_url | stylesheet_tag }}
-  {{ 'component-rte.css' | asset_url | stylesheet_tag }}
-  {{ 'component-slider.css' | asset_url | stylesheet_tag }}
-  {{ 'component-rating.css' | asset_url | stylesheet_tag }}
-  {{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
-  {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+  <link rel="preload" href="{{ 'section-main-product.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>{{ 'section-main-product.css' | asset_url | stylesheet_tag }}</noscript>
+  <link rel="preload" href="{{ 'component-accordion.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>{{ 'component-accordion.css' | asset_url | stylesheet_tag }}</noscript>
+  <link rel="preload" href="{{ 'component-price.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>{{ 'component-price.css' | asset_url | stylesheet_tag }}</noscript>
+  <link rel="preload" href="{{ 'component-rte.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+  <link rel="preload" href="{{ 'component-slider.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>{{ 'component-slider.css' | asset_url | stylesheet_tag }}</noscript>
+  <link rel="preload" href="{{ 'component-rating.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>{{ 'component-rating.css' | asset_url | stylesheet_tag }}</noscript>
+  <link rel="preload" href="{{ 'component-loading-overlay.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>{{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}</noscript>
+  <link rel="preload" href="{{ 'component-deferred-media.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>{{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}</noscript>
 
   {%- style -%}
     .section-{{ section.id }}-padding {
@@ -39,7 +47,8 @@
 
   {%- assign first_3d_model = product.media | where: 'media_type', 'model' | first -%}
   {%- if first_3d_model -%}
-    {{ 'component-product-model.css' | asset_url | stylesheet_tag }}
+    <link rel="preload" href="{{ 'component-product-model.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>{{ 'component-product-model.css' | asset_url | stylesheet_tag }}</noscript>
     <link
       id="ModelViewerStyle"
       rel="stylesheet"
@@ -462,8 +471,10 @@
           </div>
         </aside>
       {%- endif -%}
-      {{ 'component-card.css' | asset_url | stylesheet_tag }}
-      {{ 'component-complementary-products.css' | asset_url | stylesheet_tag }}
+      <link rel="preload" href="{{ 'component-card.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+      <noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
+      <link rel="preload" href="{{ 'component-complementary-products.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+      <noscript>{{ 'component-complementary-products.css' | asset_url | stylesheet_tag }}</noscript>
       {%- if block.settings.enable_quick_add -%}
         <link rel="stylesheet" href="{{ 'quick-add.css' | asset_url }}" media="print" onload="this.media='all'">
         <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>

@@ -1,4 +1,5 @@
-{{ 'section-blog-post.css' | asset_url | stylesheet_tag }}
+<link rel="preload" href="{{ 'section-blog-post.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>{{ 'section-blog-post.css' | asset_url | stylesheet_tag }}</noscript>
 
 <article class="article-template" itemscope itemtype="http://schema.org/BlogPosting">
   {%- for block in section.blocks -%}
