@@ -99,7 +99,7 @@
         widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
       }}
       {% endcomment %}
-      <img src="{{ media.preview_image | img_url: 'master' }}" alt="{{ media.preview_image.alt | escape }}" class="{{ image_class }}" loading="lazy"/>
+      <img src="{{ media.preview_image | img_url: '600x' }}" alt="{{ media.preview_image.alt | escape }}" class="{{ image_class }}" loading="lazy"/>
     </div>
     <button class="product__media-toggle quick-add-hidden product__media-zoom-{{ section.settings.image_zoom }}" type="button" aria-haspopup="dialog" data-media-id="{{ media.id }}">
       <span class="visually-hidden">
@@ -131,7 +131,7 @@
         widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
       }}
      {% endcomment %}
-      <img src="{{ media.preview_image | img_url: 'master' }}" loading="lazy"/>
+      <img src="{{ media.preview_image | img_url: '600x' }}" loading="lazy"/>
     </button>
     <template>
       {%- liquid

@@ -54,8 +54,8 @@
             <div class="media media--transparent media--hover-effect">
               {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
               <img
-                srcset="{{ card_product.featured_media | img_url: 'master' }}"
-                src="{{ card_product.featured_media | img_url: 'master' }}"
+                srcset="{{ card_product.featured_media | img_url: '800x' }}"
+                src="{{ card_product.featured_media | img_url: '800x' }}"
                 sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
                 alt="{{ card_product.featured_media.alt | escape }}"
                 class="motion-reduce"
@@ -68,8 +68,8 @@
 
               {%- if card_product.media[1] != null and show_secondary_image -%}
                 <img
-                  srcset="{{ card_product.media[1] | img_url: 'master' }}"
-                  src="{{ card_product.media[1] | img_url: 'master' }}"
+                  srcset="{{ card_product.media[1] | img_url: '800x' }}"
+                  src="{{ card_product.media[1] | img_url: '800x' }}"
                   sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
                   alt=""
                   class="motion-reduce"

@@ -13,7 +13,7 @@
         <div
           class="home-page-videoBox__wrapper home-page-videoBox__wrapper-desktop"
           {% if block.settings.video_link == blank %}
-            style="background-image: url('{{ block.settings.video_image | img_url: 'master' }}');"
+            style="background-image: url('{{ block.settings.video_image | img_url: '1200x' }}');"
           {% endif %}
         >
           {% if block.settings.video_link != blank %}
@@ -25,7 +25,7 @@
                 preload="none"
                 muted
                 playsinline
-                poster="{{ block.settings.video_image | img_url: 'master' }}"
+                poster="{{ block.settings.video_image | img_url: '1200x' }}"
               >
                 <source src="{{ block.settings.video_link }}" type="video/mp4">
               </video>

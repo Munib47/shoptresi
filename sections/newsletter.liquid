@@ -34,7 +34,7 @@
 
 <div class="ar-new newsletter center {% if section.settings.full_width == false %}newsletter--narrow page-width{% endif %}">
   {% if settings.new %}
-    <video class="new-v" loop="" muted="" no-controls="" autoplay="" src="{{ settings.video_link }}" style="" width="100%"></video>
+    <video class="new-v" loop="" muted="" no-controls="" autoplay="" preload="none" src="{{ settings.video_link }}" style="" width="100%"></video>
   {% endif %}
   <div class="newsletter__wrapper color-{{ section.settings.color_scheme }} gradient content-container isolate{% if section.settings.full_width %} content-container--full-width{% endif %} section-{{ section.id }}-padding">
     {%- for block in section.blocks -%}

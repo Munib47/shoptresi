@@ -311,8 +311,8 @@
                                 <div class="media media--transparent media--hover-effect">
                                   {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
                                   <img
-                                    srcset="{{ item.featured_media | img_url: 'master' }}"
-                                    src="{{ item.featured_media | img_url: 'master' }}"
+                                    srcset="{{ item.featured_media | img_url: '400x' }}"
+                                    src="{{ item.featured_media | img_url: '400x' }}"
                                     sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
                                     alt="{{ item.featured_media.alt | escape }}"
                                     class="motion-reduce"
@@ -324,8 +324,8 @@
                                   >
                                   {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
                                   <img
-                                    srcset="{{ item.media[1] | img_url: 'master' }}"
-                                    src="{{ item.media[1] | img_url: 'master' }}"
+                                    srcset="{{ item.media[1] | img_url: '400x' }}"
+                                    src="{{ item.media[1] | img_url: '400x' }}"
                                     sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
                                     alt=""
                                     class="motion-reduce"

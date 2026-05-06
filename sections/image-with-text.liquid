@@ -77,7 +77,8 @@
             width="{{ section.settings.desktop_image.width }}"
             height="{{ section.settings.desktop_image.height }}"
             class="desktop-image"
-            loading="lazy"
+            loading="eager"
+            fetchpriority="high"
           >
         {%- else -%}
           {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
