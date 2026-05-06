@@ -77,14 +77,15 @@ or canonical_url == "https://shoptresi.com/collections/drop-two" %}
   }
   </script>
 {% endif %}
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YW7815CKLH" defer></script>
+    <!-- Google tag (gtag.js) - consolidated -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YW7815CKLH"></script>
 <script defer>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-YW7815CKLH');
+  gtag('config', 'AW-11227917905');
+  gtag('config', 'AW-16564225261');
 </script>
     <meta name="robots" content="index,follow">
     <script defer>
@@ -121,25 +122,7 @@ or canonical_url == "https://shoptresi.com/collections/drop-two" %}
     <!-- Added by AVADA SEO Suite -->
     {% include 'avada-seo' %}
     <!-- /Added by AVADA SEO Suite -->
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11227917905" defer></script>
-    <script defer>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'AW-11227917905');
-    </script>
-
-    <!-- Google tag for remarketing (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16564225261" defer></script>
-    <script defer>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'AW-16564225261');
-    </script>
+    <!-- Google Ads configs consolidated into main gtag above -->
 
     <!-- Google Search Console -->
     <meta name="google-site-verification" content="_Zha6qlmy2_jNCSSGONqMnda2xWvGnl1ZxprmGyPK_0">
@@ -172,7 +155,8 @@ or canonical_url == "https://shoptresi.com/collections/drop-two" %}
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
 
     <!-- SwiperJS -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="preload" href="https://unpkg.com/swiper/swiper-bundle.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"></noscript>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer></script>
 
     {%- if settings.favicon != blank -%}
@@ -396,8 +380,24 @@ or canonical_url == "https://shoptresi.com/collections/drop-two" %}
       }
     {% endstyle %}
 
-    {{ 'base.css' | asset_url | stylesheet_tag }}
-    {{ 'slick.css' | asset_url | stylesheet_tag }}
+    <style>
+      /* Critical above-fold styles to prevent FOUC */
+      *,*::before,*::after{box-sizing:border-box}
+      html{box-sizing:border-box;font-size:calc(var(--font-body-scale,1)*62.5%);height:100%}
+      body{display:grid;grid-template-rows:auto auto 1fr auto;grid-template-columns:100%;min-height:100%;margin:0;font-size:1.5rem;letter-spacing:0.06rem;line-height:1.5;font-family:var(--font-body-family,HelveticaLight,Helvetica,Arial,sans-serif)}
+      img,video{max-width:100%;height:auto}
+      .header{position:relative;z-index:100}
+      .home-page-videoBackground{position:relative;overflow:hidden}
+      .home-page-videoBox__wrapper{position:absolute;top:0;left:0;right:0;bottom:0;background-size:cover;background-position:center}
+      .home-page-videoBox,.home-page-imageBox{display:flex;padding:20px 50px;height:100%;background-size:cover;background-position:center;background-repeat:no-repeat;position:relative}
+      .home-page-videoBoxInfo{width:100%;height:auto;display:flex;flex-direction:column;justify-content:space-between;z-index:2}
+      .home-page-fullscreen-video-wrap,.home-page-videoBox__wrapper video{width:100%;height:100%;object-fit:cover}
+      .skip-to-content-link{position:absolute;top:-100%;left:0}
+    </style>
+    <link rel="preload" href="{{ 'base.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>{{ 'base.css' | asset_url | stylesheet_tag }}</noscript>
+    <link rel="preload" href="{{ 'slick.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>{{ 'slick.css' | asset_url | stylesheet_tag }}</noscript>
 
     {%- unless settings.type_body_font.system? -%}
       <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
@@ -434,8 +434,6 @@ or canonical_url == "https://shoptresi.com/collections/drop-two" %}
           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
       })(window, document, "clarity", "script", "p4t0x0ipws");
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" defer></script>
-
 
     {% if request.path == '/collections/testing' %}
   <meta name="robots" content="noindex">

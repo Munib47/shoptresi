@@ -33,28 +33,10 @@
           {% endif %}
         </div>
 
-        <!-- MOBILE -->
+        <!-- MOBILE: static poster image for performance (no autoplay video on mobile) -->
         <div
           class="home-page-videoBox__wrapper home-page-videoBox__wrapper-mobile"
-          {% if block.settings.video_link_mobile == blank %}
-            style="background-image: url('{{ block.settings.video_image_mobile | img_url: 'master' }}');"
-          {% endif %}
-        >
-          {% if block.settings.video_link_mobile != blank %}
-            <div class="home-page-fullscreen-video-wrap fullscreen-video-wrap">
-              <video
-                class="home-page-video-js video-js"
-                loop
-                autoplay
-                preload="none"
-                muted
-                playsinline
-                poster="{{ block.settings.video_image_mobile | img_url: 'master' }}"
-              >
-                <source src="{{ block.settings.video_link_mobile }}" type="video/mp4">
-              </video>
-            </div>
-          {% endif %}
+          style="background-image: url('{{ block.settings.video_image_mobile | img_url: '800x' }}');">
         </div>
 
         <div class="overlay" style="opacity: 0.{{ block.settings.overlay_opacity }}"></div>

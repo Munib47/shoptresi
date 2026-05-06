@@ -3037,10 +3037,10 @@ details[open]>.header__submenu {
 }
 @font-face {
   font-family: "HelveticaMed";
-  src: url("https://cdn.shopify.com/s/files/1/0732/8795/8803/files/HelveticaMed.woff?v=1681176820") format("woff"),
-       url("https://cdn.shopify.com/s/files/1/0732/8795/8803/files/HelveticaMed.woff?v=1681176820") format("woff");
+  src: url("https://cdn.shopify.com/s/files/1/0732/8795/8803/files/HelveticaMed.woff?v=1681176820") format("woff");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -3048,6 +3048,7 @@ details[open]>.header__submenu {
   src: url("https://cdn.shopify.com/s/files/1/0732/8795/8803/files/HelveticaLight.woff?v=1682703249") format("woff");
   font-weight: 300;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -3056,6 +3057,7 @@ details[open]>.header__submenu {
        url("https://cdn.shopify.com/s/files/1/0732/8795/8803/files/HelveticaBold.woff?v=1693975871") format("woff");
   font-weight: bold;
   font-style: normal;
+  font-display: swap;
 }
 
 .header__inline-menu{

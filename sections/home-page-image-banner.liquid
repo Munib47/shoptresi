@@ -1,4 +1,5 @@
-{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
+<link rel="preload" href="{{ 'section-image-banner.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}</noscript>
 
 <div
   id="Banner-{{ section.id }}"
@@ -27,7 +28,8 @@
         section.settings.image
         | image_url: width: 3840
         | image_tag:
-          loading: 'lazy',
+          loading: 'eager',
+          fetchpriority: 'high',
           width: section.settings.image.width,
           height: image_height,
           class: image_class,
@@ -85,14 +87,15 @@
       -%}
       {{
         section.settings.mobile_image
-        | image_url: width: 3840
+        | image_url: width: 1200
         | image_tag:
-          loading: 'lazy',
+          loading: 'eager',
+          fetchpriority: 'high',
           width: section.settings.image.width,
           height: image_height,
           class: image_class,
           sizes: sizes,
-          widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+          widths: '375, 550, 750, 1100'
       }}
     </div>
   {%- endif -%}
