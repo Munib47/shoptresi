@@ -44,10 +44,10 @@
           </h2>
         {% when 'Image' %}
           <div>
-            <img class="img-fluid" src="{{block.settings.header-img | img_url: ''}}" alt="alternative">
+            <img class="img-fluid" src="{{block.settings.header-img | img_url: '1200x'}}" alt="alternative" width="1200" height="600" loading="lazy">
           </div>
         {% when 'ImageBanner' %}
-          <img class="img-fluid" src="{{block.settings.bnnr-img | img_url: ''}}" alt="alternative">
+          <img class="img-fluid" src="{{block.settings.bnnr-img | img_url: '1200x'}}" alt="alternative" width="1200" height="400" loading="lazy">
         {%- when 'paragraph' -%}
           <div class="newsletter__subheading rte" {{ block.shopify_attributes }}>
             <div id="newsletter__subheading__text">  
