@@ -26,8 +26,8 @@
                 muted
                 playsinline
                 poster="{{ block.settings.video_image | img_url: '1200x' }}"
+                data-video-src="{{ block.settings.video_link }}"
               >
-                <source src="{{ block.settings.video_link }}" type="video/mp4">
               </video>
             </div>
           {% endif %}
@@ -431,6 +431,37 @@
       // }
     });
   });
+
+
+  // Lazy load desktop video - only load when visible
+  (function() {
+    var videos = document.querySelectorAll('video[data-video-src]');
+    if (!videos.length) return;
+    var loadVideo = function(video) {
+      var src = video.getAttribute('data-video-src');
+      if (!src) return;
+      var source = document.createElement('source');
+      source.src = src;
+      source.type = 'video/mp4';
+      video.appendChild(source);
+      video.load();
+      video.removeAttribute('data-video-src');
+    };
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            loadVideo(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '200px' });
+      videos.forEach(function(v) { observer.observe(v); });
+    } else {
+      // Fallback: load immediately for old browsers
+      videos.forEach(loadVideo);
+    }
+  })();
 </script>
 
 {% schema %}
