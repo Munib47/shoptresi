@@ -1,7 +1,5 @@
-<link rel="preload" href="{{ 'component-card.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
-<link rel="preload" href="{{ 'section-collection-list.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'section-collection-list.css' | asset_url | stylesheet_tag }}</noscript>
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
 
 <div class="page-width">
   <h1 class="title title--primary">{{ section.settings.title | escape }}</h1>

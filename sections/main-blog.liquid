@@ -1,9 +1,6 @@
-<link rel="preload" href="{{ 'component-article-card.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'component-article-card.css' | asset_url | stylesheet_tag }}</noscript>
-<link rel="preload" href="{{ 'component-card.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
-<link rel="preload" href="{{ 'section-main-blog.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'section-main-blog.css' | asset_url | stylesheet_tag }}</noscript>
+{{ 'component-article-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-blog.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {

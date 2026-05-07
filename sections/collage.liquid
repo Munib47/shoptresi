@@ -1,11 +1,7 @@
-<link rel="preload" href="{{ 'collage.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'collage.css' | asset_url | stylesheet_tag }}</noscript>
-<link rel="preload" href="{{ 'component-card.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
-<link rel="preload" href="{{ 'component-price.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'component-price.css' | asset_url | stylesheet_tag }}</noscript>
-<link rel="preload" href="{{ 'component-modal-video.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'component-modal-video.css' | asset_url | stylesheet_tag }}</noscript>
+{{ 'collage.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-modal-video.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {

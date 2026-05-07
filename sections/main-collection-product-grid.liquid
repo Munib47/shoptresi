@@ -1,11 +1,7 @@
-<link rel="preload" href="{{ 'template-collection.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'template-collection.css' | asset_url | stylesheet_tag }}</noscript>
-<link rel="preload" href="{{ 'component-loading-overlay.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}</noscript>
-<link rel="preload" href="{{ 'component-card.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
-<link rel="preload" href="{{ 'component-price.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'component-price.css' | asset_url | stylesheet_tag }}</noscript>
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
 
 {% if template.suffix == 'view-20' %}
   {% assign limit = 20 %}

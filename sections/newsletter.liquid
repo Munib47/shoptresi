@@ -1,9 +1,6 @@
-<link rel="preload" href="{{ 'component-newsletter.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}</noscript>
-<link rel="preload" href="{{ 'newsletter-section.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'newsletter-section.css' | asset_url | stylesheet_tag }}</noscript>
-<link rel="preload" href="{{ 'component-rte.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}
+{{ 'newsletter-section.css' | asset_url | stylesheet_tag }}
+{{ 'component-rte.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {

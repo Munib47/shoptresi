@@ -1,5 +1,4 @@
-<link rel="preload" href="{{ 'customer.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>{{ 'customer.css' | asset_url | stylesheet_tag }}</noscript>
+{{ 'customer.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
